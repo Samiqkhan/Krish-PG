@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Home, MapPin, Sparkles, PhoneCall } from "lucide-react";
+import { Menu, X, Home, MapPin, Sparkles, Phone, ShieldCheck } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -8,90 +8,142 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80; // Accounting for header height
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
     setIsMobileMenuOpen(false);
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-card/95 backdrop-blur-lg shadow-md border-b"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary flex items-center justify-center transition-transform group-hover:rotate-12">
-              <Home className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-lg md:text-xl font-bold tracking-tight">Krish PG</span>
-          </a>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {["branches", "amenities", "booking", "contact"].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item)}
-                className="text-sm font-semibold capitalize hover:text-primary transition-colors relative group"
-              >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-              </button>
-            ))}
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <Button onClick={() => scrollToSection("booking")} className="shadow-button rounded-xl font-bold">
-              Book Your Stay
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Improved Mobile Menu Overlay */}
-      <div 
-        className={`md:hidden absolute top-full left-0 right-0 bg-card border-b shadow-2xl transition-all duration-300 origin-top ${
-          isMobileMenuOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+          isScrolled || isMobileMenuOpen
+            ? "bg-white/90 backdrop-blur-xl shadow-lg py-3"
+            : "bg-transparent py-5"
         }`}
       >
-        <nav className="container mx-auto px-6 py-8 flex flex-col gap-6">
-          <button onClick={() => scrollToSection("branches")} className="flex items-center gap-4 text-lg font-bold">
-            <MapPin className="text-primary" /> Our Locations
-          </button>
-          <button onClick={() => scrollToSection("amenities")} className="flex items-center gap-4 text-lg font-bold">
-            <Sparkles className="text-primary" /> Amenities
-          </button>
-          <button onClick={() => scrollToSection("contact")} className="flex items-center gap-4 text-lg font-bold">
-            <PhoneCall className="text-primary" /> Contact Us
-          </button>
-          <hr className="border-border" />
-          <Button onClick={() => scrollToSection("booking")} className="w-full h-14 rounded-2xl text-lg font-bold shadow-button">
-            Book Your Stay
-          </Button>
-        </nav>
+        <div className="container mx-auto px-5">
+          <div className="flex items-center justify-between">
+            {/* Logo Section */}
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex items-center gap-2.5 z-[70]"
+            >
+              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-button">
+                <Home className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <div className="flex flex-col items-start leading-none">
+                <span className="text-xl font-black tracking-tighter">KRISH PG</span>
+                <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Premium Stay</span>
+              </div>
+            </button>
+
+            {/* Desktop Nav */}
+            <nav className="hidden lg:flex items-center gap-8">
+              {["branches", "amenities", "about"].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className="text-sm font-bold capitalize hover:text-primary transition-colors"
+                >
+                  {item}
+                </button>
+              ))}
+              <Button 
+                onClick={() => scrollToSection("booking")} 
+                className="rounded-full px-6 font-bold shadow-button"
+              >
+                Book Now
+              </Button>
+            </nav>
+
+            {/* Mobile Toggle - Improved Hitbox */}
+            <button
+              className="lg:hidden w-12 h-12 flex items-center justify-center rounded-xl bg-secondary/50 transition-all active:scale-90 z-[70]"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-primary" />
+              ) : (
+                <Menu className="w-6 h-6 text-foreground" />
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Modern Mobile Menu Overlay */}
+      <div 
+        className={`fixed inset-0 z-[55] lg:hidden transition-all duration-500 ${
+          isMobileMenuOpen ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        {/* Backdrop blur */}
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+        
+        {/* Menu Content */}
+        <div className={`absolute top-0 right-0 w-[80%] h-full bg-card shadow-2xl transition-transform duration-500 ease-out p-8 pt-28 ${
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}>
+          <div className="flex flex-col gap-6">
+            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em]">Navigation</span>
+            
+            <nav className="flex flex-col gap-4">
+              <button 
+                onClick={() => scrollToSection("branches")}
+                className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-secondary/50 text-lg font-bold hover:bg-primary/10 transition-colors"
+              >
+                <MapPin className="w-5 h-5 text-primary" /> Our Branches
+              </button>
+              
+              <button 
+                onClick={() => scrollToSection("amenities")}
+                className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-secondary/50 text-lg font-bold"
+              >
+                <Sparkles className="w-5 h-5 text-primary" /> Amenities
+              </button>
+
+              <button 
+                onClick={() => scrollToSection("about")}
+                className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-secondary/50 text-lg font-bold"
+              >
+                <ShieldCheck className="w-5 h-5 text-primary" /> Why Choose Us
+              </button>
+            </nav>
+
+            <div className="mt-4 p-6 rounded-[2rem] bg-primary/5 border border-primary/10">
+              <p className="text-sm font-bold mb-4 flex items-center gap-2">
+                <Phone className="w-4 h-4 text-primary" /> Instant Support
+              </p>
+              <Button 
+                onClick={() => scrollToSection("booking")} 
+                className="w-full h-14 rounded-2xl text-lg font-black shadow-button"
+              >
+                Book Your Stay
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
-    </header>
+    </>
   );
 };
 
