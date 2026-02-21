@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { LayoutDashboard, Users, MessageSquare, MapPin, Save, RefreshCw } from "lucide-react";
+import { LayoutDashboard, Users, MessageSquare, MapPin, Save, RefreshCw, Building2, Mail } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 const Admin = () => {
@@ -18,11 +18,8 @@ const Admin = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // 1. Fetch Branches
       const { data: bData } = await supabase.from('branches').select('*').order('name');
-      // 2. Fetch Form Bookings
       const { data: bkData } = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
-      // 3. Fetch Chatbot Leads
       const { data: lData } = await supabase.from('chatbot_leads').select('*').order('created_at', { ascending: false });
       
       setBranches(bData || []);
@@ -46,138 +43,125 @@ const Admin = () => {
     if (error) {
       toast({ title: "Update Failed", variant: "destructive" });
     } else {
-      toast({ title: "Branch Updated" });
+      toast({ title: "Branch Details Updated" });
       fetchData();
     }
   };
 
   return (
     <div className="flex min-h-screen bg-slate-50">
-      {/* Sidebar */}
-      <div className="w-64 bg-primary text-primary-foreground p-6 hidden lg:block shadow-xl">
-        <h2 className="text-2xl font-black tracking-tighter mb-8 italic">KRISH PG</h2>
-        <nav className="space-y-2">
-          <div className="flex items-center gap-3 py-3 px-4 bg-white/10 rounded-xl font-bold">
+      <div className="w-64 bg-primary text-primary-foreground p-8 hidden lg:block shadow-2xl">
+        <div className="flex items-center gap-3 mb-10">
+          <Building2 className="w-8 h-8" />
+          <h2 className="text-2xl font-black tracking-tighter italic text-black">KRISH PG</h2>
+        </div>
+        <nav className="space-y-4">
+          <div className="flex items-center gap-3 py-3 px-4 bg-black/10 rounded-2xl font-bold">
             <LayoutDashboard size={20}/> Dashboard
           </div>
         </nav>
       </div>
 
-      <div className="flex-1 p-4 md:p-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+      <div className="flex-1 p-5 md:p-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
           <div>
-            <h1 className="text-3xl font-black">Management Console</h1>
-            <p className="text-muted-foreground text-sm">Real-time leads and property control</p>
+            <h1 className="text-4xl font-black tracking-tight">Admin Console</h1>
+            <p className="text-muted-foreground font-medium">Monitoring leads for your 5 branches.</p>
           </div>
-          <Button onClick={fetchData} variant="outline" className="rounded-xl border-2 font-bold" disabled={loading}>
-            <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> Refresh Data
+          <Button onClick={fetchData} variant="outline" className="rounded-2xl border-2 font-bold h-12" disabled={loading}>
+            <RefreshCw className={`mr-2 h-5 w-5 ${loading ? 'animate-spin' : ''}`} /> Sync Data
           </Button>
         </div>
 
-        <Tabs defaultValue="bookings" className="space-y-8">
-          <TabsList className="bg-secondary/50 p-1 rounded-2xl h-14 w-full md:w-auto">
-            <TabsTrigger value="bookings" className="rounded-xl px-8 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Bookings</TabsTrigger>
-            <TabsTrigger value="leads" className="rounded-xl px-8 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Chat Leads</TabsTrigger>
-            <TabsTrigger value="properties" className="rounded-xl px-8 font-bold data-[state=active]:bg-white data-[state=active]:shadow-sm">Properties</TabsTrigger>
+        <Tabs defaultValue="properties" className="space-y-10">
+          <TabsList className="bg-slate-200/50 p-1.5 rounded-2xl h-16 shadow-sm">
+            <TabsTrigger value="properties" className="rounded-xl px-10 font-black text-xs">PROPERTIES</TabsTrigger>
+            <TabsTrigger value="bookings" className="rounded-xl px-10 font-black text-xs">BOOKINGS</TabsTrigger>
+            <TabsTrigger value="leads" className="rounded-xl px-10 font-black text-xs">CHAT LEADS</TabsTrigger>
           </TabsList>
 
-          {/* BOOKINGS TAB */}
-          <TabsContent value="bookings">
-            <Card className="rounded-[2rem] border-none shadow-card overflow-hidden">
-              <CardHeader className="bg-white border-b border-slate-100">
-                <CardTitle className="flex items-center gap-2 font-black"><Users className="text-primary"/> Booking Form Submissions</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <Table>
-                  <TableHeader className="bg-slate-50">
-                    <TableRow>
-                      <TableHead className="font-bold">Name</TableHead>
-                      <TableHead className="font-bold">Phone</TableHead>
-                      <TableHead className="font-bold">Branch</TableHead>
-                      <TableHead className="font-bold">Room Type</TableHead>
-                      <TableHead className="font-bold">Move-in</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {bookings.length > 0 ? bookings.map((b: any) => (
-                      <TableRow key={b.id} className="hover:bg-slate-50/50">
-                        <TableCell className="font-bold">{b.name || "N/A"}</TableCell>
-                        <TableCell>{b.phone || "N/A"}</TableCell>
-                        <TableCell className="font-medium text-primary">{b.branch || "N/A"}</TableCell>
-                        <TableCell>{b.room_type || "N/A"}</TableCell>
-                        <TableCell>{b.move_in_date || "N/A"}</TableCell>
-                      </TableRow>
-                    )) : (
-                      <TableRow><TableCell colSpan={5} className="text-center py-10 text-muted-foreground">No bookings found</TableCell></TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* CHAT LEADS TAB */}
-          <TabsContent value="leads">
-            <Card className="rounded-[2rem] border-none shadow-card overflow-hidden">
-              <CardHeader className="bg-white border-b border-slate-100">
-                <CardTitle className="flex items-center gap-2 font-black"><MessageSquare className="text-primary"/> Chatbot Inquiries</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <Table>
-                  <TableHeader className="bg-slate-50">
-                    <TableRow>
-                      <TableHead className="font-bold">Name</TableHead>
-                      <TableHead className="font-bold">Phone</TableHead>
-                      <TableHead className="font-bold">Preferred Location</TableHead>
-                      <TableHead className="font-bold">Date</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {leads.length > 0 ? leads.map((l: any) => (
-                      <TableRow key={l.id} className="hover:bg-slate-50/50">
-                        <TableCell className="font-bold">{l.name || "N/A"}</TableCell>
-                        <TableCell>{l.phone || "N/A"}</TableCell>
-                        <TableCell className="font-medium text-primary">{l.preferred_location || "N/A"}</TableCell>
-                        <TableCell>{new Date(l.created_at).toLocaleDateString()}</TableCell>
-                      </TableRow>
-                    )) : (
-                      <TableRow><TableCell colSpan={4} className="text-center py-10 text-muted-foreground">No chat leads found</TableCell></TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* PROPERTIES TAB */}
           <TabsContent value="properties">
-            <Card className="rounded-[2rem] border-none shadow-card overflow-hidden">
-              <CardHeader className="bg-white border-b border-slate-100">
-                <CardTitle className="flex items-center gap-2 font-black"><MapPin className="text-primary"/> Branch Availability</CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
+            <Card className="rounded-[2.5rem] border-none shadow-xl overflow-hidden">
+              <CardHeader className="bg-white p-8 border-b"><CardTitle className="font-black text-2xl flex gap-2"><MapPin className="text-primary"/> Branch Pricing</CardTitle></CardHeader>
+              <CardContent className="p-0">
                 <Table>
-                  <TableHeader>
+                  <TableHeader className="bg-slate-50">
                     <TableRow>
-                      <TableHead className="font-bold">Branch</TableHead>
-                      <TableHead className="font-bold">Rooms Available</TableHead>
-                      <TableHead className="font-bold">Starting Rent (₹)</TableHead>
-                      <TableHead className="text-right font-bold">Action</TableHead>
+                      <TableHead className="px-8 font-bold text-xs">Branch</TableHead>
+                      <TableHead className="font-bold text-xs">Rooms Available</TableHead>
+                      <TableHead className="font-bold text-xs">Rent (₹)</TableHead>
+                      <TableHead className="text-right px-8 font-bold text-xs">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {branches.map((branch: any) => (
                       <TableRow key={branch.id}>
-                        <TableCell className="font-bold">{branch.name}</TableCell>
-                        <TableCell><Input type="number" defaultValue={branch.rooms} id={`rooms-${branch.id}`} className="w-24 rounded-lg" /></TableCell>
-                        <TableCell><Input type="number" defaultValue={branch.starting_price} id={`price-${branch.id}`} className="w-32 rounded-lg" /></TableCell>
-                        <TableCell className="text-right">
-                          <Button size="sm" className="rounded-lg font-bold" onClick={() => {
+                        <TableCell className="px-8 font-black">{branch.name}</TableCell>
+                        <TableCell><Input type="number" defaultValue={branch.rooms} id={`rooms-${branch.id}`} className="w-24 rounded-xl font-bold" /></TableCell>
+                        <TableCell><Input type="number" defaultValue={branch.starting_price} id={`price-${branch.id}`} className="w-32 rounded-xl font-bold" /></TableCell>
+                        <TableCell className="text-right px-8">
+                          <Button size="sm" className="rounded-xl font-black" onClick={() => {
                             const r = (document.getElementById(`rooms-${branch.id}`) as HTMLInputElement).value;
                             const p = (document.getElementById(`price-${branch.id}`) as HTMLInputElement).value;
                             handleUpdateBranch(branch.id, r, p);
-                          }}><Save size={16} className="mr-2"/> Update</Button>
+                          }}><Save size={16} className="mr-2"/> SAVE</Button>
                         </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="bookings">
+            <Card className="rounded-[2.5rem] border-none shadow-xl overflow-hidden">
+              <CardHeader className="bg-white border-b"><CardTitle className="font-black flex gap-2"><Users className="text-primary"/> Form Leads</CardTitle></CardHeader>
+              <CardContent className="p-0 text-sm">
+                <Table>
+                  <TableHeader className="bg-slate-50">
+                    <TableRow>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Branch</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {bookings.map((b: any) => (
+                      <TableRow key={b.id}>
+                        <TableCell className="font-bold">{b.name}</TableCell>
+                        <TableCell className="text-blue-600">{b.email || "N/A"}</TableCell>
+                        <TableCell>{b.phone}</TableCell>
+                        <TableCell className="font-bold text-primary">{b.branch}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="leads">
+            <Card className="rounded-[2.5rem] border-none shadow-xl overflow-hidden">
+              <CardHeader className="bg-white border-b"><CardTitle className="font-black flex gap-2"><MessageSquare className="text-primary"/> Chatbot Leads</CardTitle></CardHeader>
+              <CardContent className="p-0 text-sm">
+                <Table>
+                  <TableHeader className="bg-slate-50">
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Location</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {leads.map((l: any) => (
+                      <TableRow key={l.id}>
+                        <TableCell className="font-bold">{l.name}</TableCell>
+                        <TableCell className="text-blue-600">{l.email || "N/A"}</TableCell>
+                        <TableCell>{l.phone}</TableCell>
+                        <TableCell className="font-bold text-primary">{l.preferred_location}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
