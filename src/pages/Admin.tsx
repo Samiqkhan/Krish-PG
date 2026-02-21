@@ -127,7 +127,6 @@ const Admin = () => {
                   <TableHeader className="bg-slate-50">
                     <TableRow>
                       <TableHead className="font-bold">Name</TableHead>
-                      <TableHead className="font-bold">Email</TableHead>
                       <TableHead className="font-bold">Phone</TableHead>
                       <TableHead className="font-bold">Preferred Location</TableHead>
                       <TableHead className="font-bold">Date</TableHead>
