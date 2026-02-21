@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Home } from "lucide-react";
+import { Menu, X, Home, MapPin, Sparkles, PhoneCall } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,105 +21,76 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-card/95 backdrop-blur-md shadow-sm"
+          ? "bg-card/95 backdrop-blur-lg shadow-md border-b"
           : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+          <a href="/" className="flex items-center gap-2 group">
+            <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-primary flex items-center justify-center transition-transform group-hover:rotate-12">
               <Home className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold">Krish PG</span>
+            <span className="text-lg md:text-xl font-bold tracking-tight">Krish PG</span>
           </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection("branches")}
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Locations
-            </button>
-            <button
-              onClick={() => scrollToSection("amenities")}
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Amenities
-            </button>
-            <button
-              onClick={() => scrollToSection("booking")}
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Book Now
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Contact
-            </button>
+            {["branches", "amenities", "booking", "contact"].map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item)}
+                className="text-sm font-semibold capitalize hover:text-primary transition-colors relative group"
+              >
+                {item}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+              </button>
+            ))}
           </nav>
 
-          {/* CTA Button */}
+          {/* Desktop CTA */}
           <div className="hidden md:block">
-            <Button onClick={() => scrollToSection("booking")}>
+            <Button onClick={() => scrollToSection("booking")} className="shadow-button rounded-xl font-bold">
               Book Your Stay
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden w-10 h-10 flex items-center justify-center"
+            className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-secondary/50"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-card border-t">
-          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            <button
-              onClick={() => scrollToSection("branches")}
-              className="text-left py-2 font-medium hover:text-primary transition-colors"
-            >
-              Locations
-            </button>
-            <button
-              onClick={() => scrollToSection("amenities")}
-              className="text-left py-2 font-medium hover:text-primary transition-colors"
-            >
-              Amenities
-            </button>
-            <button
-              onClick={() => scrollToSection("booking")}
-              className="text-left py-2 font-medium hover:text-primary transition-colors"
-            >
-              Book Now
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="text-left py-2 font-medium hover:text-primary transition-colors"
-            >
-              Contact
-            </button>
-            <Button onClick={() => scrollToSection("booking")} className="w-full">
-              Book Your Stay
-            </Button>
-          </nav>
-        </div>
-      )}
+      {/* Improved Mobile Menu Overlay */}
+      <div 
+        className={`md:hidden absolute top-full left-0 right-0 bg-card border-b shadow-2xl transition-all duration-300 origin-top ${
+          isMobileMenuOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 pointer-events-none"
+        }`}
+      >
+        <nav className="container mx-auto px-6 py-8 flex flex-col gap-6">
+          <button onClick={() => scrollToSection("branches")} className="flex items-center gap-4 text-lg font-bold">
+            <MapPin className="text-primary" /> Our Locations
+          </button>
+          <button onClick={() => scrollToSection("amenities")} className="flex items-center gap-4 text-lg font-bold">
+            <Sparkles className="text-primary" /> Amenities
+          </button>
+          <button onClick={() => scrollToSection("contact")} className="flex items-center gap-4 text-lg font-bold">
+            <PhoneCall className="text-primary" /> Contact Us
+          </button>
+          <hr className="border-border" />
+          <Button onClick={() => scrollToSection("booking")} className="w-full h-14 rounded-2xl text-lg font-bold shadow-button">
+            Book Your Stay
+          </Button>
+        </nav>
+      </div>
     </header>
   );
 };
