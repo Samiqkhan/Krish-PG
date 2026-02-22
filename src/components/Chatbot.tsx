@@ -26,7 +26,13 @@ const initialMessages: Message[] = [
   },
 ];
 
-const locations = ["Downtown Central", "Tech Park Hub", "University Heights", "Business Bay", "Garden View"];
+const locations = [
+  "Sainath nagar", 
+  "Samarth nagar", 
+  "Khande nagar", 
+  "Sairam PG - 1", 
+  "Sairam PG - 2"
+];
 
 const Chatbot = () => {
   const { toast } = useToast();

@@ -25,13 +25,13 @@ const Hero = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-              Find Your Perfect
-              <span className="text-primary block">Home Away From Home</span>
+              Finest resident 
+              <span className="text-primary block">For You and Your Loved Ones</span>
             </h1>
             
             <p className="text-lg text-muted-foreground mb-8 max-w-lg">
               Premium paying guest accommodations across 5 prime locations. 
-              Experience comfort, convenience, and community living at its finest.
+              Experience comfort, convenience, and community living at afforadble price.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -59,7 +59,7 @@ const Hero = () => {
                   <Users className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <p className="font-bold text-2xl">500+</p>
+                  <p className="font-bold text-2xl">180+</p>
                   <p className="text-sm text-muted-foreground">Happy Residents</p>
                 </div>
               </div>

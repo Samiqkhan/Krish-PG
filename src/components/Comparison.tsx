@@ -8,7 +8,7 @@ const Comparison = () => {
     { feature: "Cleanliness", standard: "Weekly / On-request", premium: "Professional Daily Cleaning" },
     { feature: "Management", standard: "Manual / Slow Response", premium: "App-based Support + On-site Manager" },
     { feature: "Hidden Costs", standard: "Security Deposit + Brokerage", premium: "Zero Brokerage + Clear Pricing" },
-    { feature: "Power Backup", standard: "Not Available", premium: "24/7 Full Power Backup" },
+    
   ];
 
   return (
