@@ -2,67 +2,79 @@ import { ShieldCheck, Zap, HeartHandshake, MapPinned, CreditCard, Users } from "
 
 const advantages = [
   {
-    icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+    icon: <ShieldCheck className="w-7 h-7" />,
     title: "Safety First",
-    description: "24/7 CCTV surveillance, biometric entry, and professional security staff for total peace of mind."
+    description: "24/7 CCTV, biometric entry, and professional security for total peace of mind."
   },
   {
-    icon: <Zap className="w-8 h-8 text-primary" />,
+    icon: <Zap className="w-7 h-7" />,
     title: "High-Speed Living",
-    description: "Seamless 200+ Mbps Wi-Fi and 100% power backup to ensure your work or study never stops."
+    description: "Seamless 200+ Mbps Wi-Fi and 100% power backup to ensure you stay connected."
   },
   {
-    icon: <MapPinned className="w-8 h-8 text-primary" />,
+    icon: <MapPinned className="w-7 h-7" />,
     title: "Prime Locations",
-    description: "All our branches are within walking distance or a 5-minute commute to major IT parks and colleges."
+    description: "Walking distance or a 5-minute commute to major IT parks and colleges."
   },
   {
-    icon: <CreditCard className="w-8 h-8 text-primary" />,
+    icon: <CreditCard className="w-7 h-7" />,
     title: "Transparent Pricing",
-    description: "No hidden maintenance fees or brokerage. What you see is exactly what you pay."
+    description: "No hidden maintenance fees or brokerage. What you see is what you pay."
   },
   {
-    icon: <HeartHandshake className="w-8 h-8 text-primary" />,
-    title: "Housekeeping Included",
-    description: "Professional daily cleaning and laundry services so you can focus on what matters most."
+    icon: <HeartHandshake className="w-7 h-7" />,
+    title: "Housekeeping",
+    description: "Professional daily cleaning and laundry services so you can focus on work."
   },
   {
-    icon: <Users className="w-8 h-8 text-primary" />,
+    icon: <Users className="w-7 h-7" />,
     title: "Vibrant Community",
-    description: "Regular social events and networking sessions to help you make friends in a new city."
+    description: "Regular social events and networking sessions to help you make friends."
   }
 ];
 
 const WhyUs = () => {
   return (
-    <section id="why-us" className="py-20 bg-secondary/20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">The Advantage</span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">
-            Why We Are Better Than Your Average PG
+    <section id="why-us" className="py-24 bg-slate-50">
+      <div className="container mx-auto px-6">
+        
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          <span className="text-primary font-black text-xs uppercase tracking-[0.3em] mb-4 block">
+            The Advantage
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 leading-tight">
+            Why We Are Better <br className="hidden md:block" />
+            Than Your Average PG
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            We don't just provide a room; we provide a lifestyle designed for comfort, productivity, and safety.
-          </p>
+          <div className="w-20 h-1.5 bg-primary mx-auto rounded-full" />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Advantage Grid: Side-by-Side Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
           {advantages.map((adv, index) => (
             <div 
               key={index} 
-              className="bg-card p-8 rounded-3xl shadow-card hover:shadow-card-hover transition-all border border-transparent hover:border-primary/20"
+              className="flex items-start gap-6 group transition-all duration-300"
             >
-              <div className="mb-4 bg-primary/10 w-16 h-16 flex items-center justify-center rounded-2xl">
+              {/* Icon Container */}
+              <div className="shrink-0 w-16 h-16 bg-white border border-slate-100 rounded-[1.5rem] flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300 group-hover:-translate-y-1">
                 {adv.icon}
               </div>
-              <h3 className="text-xl font-bold mb-3">{adv.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {adv.description}
-              </p>
+
+              {/* Text Side */}
+              <div className="pt-2">
+                <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-primary transition-colors">
+                  {adv.title}
+                </h3>
+                <p className="text-sm text-slate-500 font-medium leading-relaxed">
+                  {adv.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

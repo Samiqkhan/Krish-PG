@@ -17,10 +17,8 @@ const branches = [
 ];
 
 const roomTypes = [
-  "Single Occupancy",
   "Double Sharing",
   "Triple Sharing",
-  "Four Sharing",
 ];
 
 const BookingForm = () => {

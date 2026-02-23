@@ -26,12 +26,13 @@ const initialMessages: Message[] = [
   },
 ];
 
+// Updated locations with specific names
 const locations = [
   "Sainath nagar", 
   "Samarth nagar", 
-  "Khande nagar", 
-  "Sairam PG - 1", 
-  "Sairam PG - 2"
+  "Khandve nagar", 
+  "Sairam PG - 1 (Kharadi Bypass)", 
+  "Sairam PG - 2 (Sainath Nagar)"
 ];
 
 const Chatbot = () => {
@@ -83,21 +84,21 @@ const Chatbot = () => {
 
     switch (step) {
       case 0: // Name
-        setLeadData({ ...leadData, name: userMessage });
+        setLeadData((prev) => ({ ...prev, name: userMessage }));
         setTimeout(() => {
           addBotMessage(`Nice to meet you, ${userMessage}! 😊 Could you please share your email address?`);
         }, 500);
         setStep(1);
         break;
 
-      case 1: // Email
+      case 1: // Email Capture
         if (!validateEmail(userMessage)) {
           setTimeout(() => {
             addBotMessage("That doesn't look like a valid email. Please enter a valid email address.");
           }, 500);
           return;
         }
-        setLeadData({ ...leadData, email: userMessage });
+        setLeadData((prev) => ({ ...prev, email: userMessage }));
         setTimeout(() => {
           addBotMessage("Great! Now, could you share your phone number so we can reach you?");
         }, 500);
@@ -111,7 +112,7 @@ const Chatbot = () => {
           }, 500);
           return;
         }
-        setLeadData({ ...leadData, phone: userMessage });
+        setLeadData((prev) => ({ ...prev, phone: userMessage }));
         setTimeout(() => {
           addBotMessage(
             `Perfect! Which location are you interested in?\n\n${locations.map((loc, i) => `${i + 1}. ${loc}`).join("\n")}\n\nJust type the number or location name.`
@@ -120,7 +121,7 @@ const Chatbot = () => {
         setStep(3);
         break;
 
-      case 3: // Location & Supabase Sync
+      case 3: // Location & Sync
         let selectedLocation = "";
         const num = parseInt(userMessage);
         if (num >= 1 && num <= 5) {
@@ -141,7 +142,7 @@ const Chatbot = () => {
 
         const finalData = { ...leadData, preferred_location: selectedLocation };
         
-        // Sync to Supabase
+        // Sync to Supabase - ensuring email is included in the finalData object
         const { error } = await supabase.from('chatbot_leads').insert([finalData]);
 
         if (error) {
@@ -154,7 +155,7 @@ const Chatbot = () => {
             );
             toast({
               title: "Lead Captured!",
-              description: "Your details have been saved successfully.",
+              description: "Your details (including email) have been saved successfully.",
             });
           }, 500);
         }

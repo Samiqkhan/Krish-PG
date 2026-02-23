@@ -11,7 +11,7 @@ const VirtualTour = () => {
         <Tabs defaultValue="double" className="max-w-4xl mx-auto">
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="double">Double Sharing Room</TabsTrigger>
-            <TabsTrigger value="triple">Triple Sharing Room</TabsTrigger>
+            <TabsTrigger value="triple">Dining Area & Common Space</TabsTrigger>
           </TabsList>
 
           <TabsContent value="double">
@@ -53,11 +53,11 @@ const VirtualTour = () => {
                   type="info" 
                   pitch={11} 
                   yaw={-167} 
-                  text="Triple Sharing Arrangement" 
+                  text="Dining Area and Common Space" 
                 />
               </Pannellum>
             </div>
-            <p className="mt-4 text-muted-foreground">Triple sharing rooms offer maximum affordability without compromising on comfort.</p>
+            <p className="mt-4 text-muted-foreground">Dining area and common space are shared among residents for a comfortable living experience.</p>
           </TabsContent>
         </Tabs>
       </div>
