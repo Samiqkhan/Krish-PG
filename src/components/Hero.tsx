@@ -24,7 +24,7 @@ const Hero = () => {
               Trusted by 1000+ Residents
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-red-500">
               Finest resident 
               <span className="text-primary block">For You and Your Loved Ones</span>
             </h1>
@@ -91,7 +91,7 @@ const Hero = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-sm">Join our community</p>
-                    <p className="text-xs text-muted-foreground">500+ residents</p>
+                    <p className="text-xs text-muted-foreground">180+ residents</p>
                   </div>
                 </div>
               </div>

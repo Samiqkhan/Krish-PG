@@ -3,20 +3,20 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const reviews = [
   {
-    name: "Rahul Sharma",
+    name: "Mohammed Kaif",
     role: "Software Engineer",
-    content: "The best PG experience I've had. The amenities are top-notch and the staff is very helpful.",
+    content: "The best PG experience I've had. The amenities are best and the staff is very helpful.",
     rating: 5,
   },
   {
-    name: "Priya Patel",
+    name: "Sowmiya",
     role: "Student",
     content: "Very safe and clean environment. Perfect for students looking for a quiet place to study.",
     rating: 5,
   },
   {
-    name: "Ankit Verma",
-    role: "Marketing Professional",
+    name: "Abishek",
+    role: "Software Developer",
     content: "Excellent location and great community. The high-speed internet is a huge plus for work.",
     rating: 4,
   },

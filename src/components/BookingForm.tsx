@@ -9,11 +9,11 @@ import { supabase } from "@/lib/supabase";
 import { Calendar, User, Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 
 const branches = [
-  "Downtown Central",
-  "Tech Park Hub",
-  "University Heights",
-  "Business Bay",
-  "Garden View",
+  "Khande nagar",
+  "Sainath nagar",
+  "Samarth nagar",
+  "Sairam PG - 1",
+  "Sairam PG - 2",
 ];
 
 const roomTypes = [

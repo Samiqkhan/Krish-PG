@@ -21,7 +21,7 @@ const About = () => {
                 className="rounded-3xl shadow-card w-full h-[400px] object-cover"
               />
               <div className="absolute -bottom-6 -right-6 bg-primary p-8 rounded-2xl hidden md:block">
-                <p className="text-white font-bold text-4xl">500+</p>
+                <p className="text-white font-bold text-4xl">180+</p>
                 <p className="text-white/80 text-sm">Happy Residents</p>
               </div>
             </div>
