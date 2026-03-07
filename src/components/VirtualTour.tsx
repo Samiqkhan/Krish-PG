@@ -19,7 +19,7 @@ const VirtualTour = () => {
               <Pannellum
                 width="100%"
                 height="100%"
-                image="/room.jpeg" // Replace with your 360 image URL
+                image="/dining.jpeg" // Replace with your 360 image URL
                 pitch={10}
                 yaw={180}
                 hfov={110}
@@ -42,7 +42,7 @@ const VirtualTour = () => {
               <Pannellum
                 width="100%"
                 height="100%"
-                image="https://pannellum.org/images/milan.jpg" // Replace with your 360 image URL
+                image="/room.jpeg" // Replace with your 360 image URL
                 pitch={10}
                 yaw={180}
                 hfov={110}
